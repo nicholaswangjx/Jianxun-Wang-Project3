@@ -1,5 +1,5 @@
 const settings = {
-  BASE_URL: process.env.REACT_APP_BASE_URL,
+  BASE_URL: 'https://jianxun-wang-project3-backend.onrender.com/api',
 }
 
 export default settings
