@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
 import { useSelector } from 'react-redux'
 import Post from './Post'
 import settings from '../config'
+import axiosInstance from '../axiosInstance'
 
 const Timeline = () => {
   const [timeLine, setTimeLine] = useState(null)
@@ -13,7 +13,7 @@ const Timeline = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const timelineTweets = await axios.get(
+        const timelineTweets = await axiosInstance.get(
           settings.BASE_URL + `/twitterPost/all-posts/${currentUser._id}`
         )
 

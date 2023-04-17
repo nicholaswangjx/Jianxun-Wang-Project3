@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { loginStart, loginSuccess, loginFailed } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
 import settings from '../config'
+import axiosInstance from '../axiosInstance'
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -19,7 +19,7 @@ const Register = () => {
     dispatch(loginStart())
 
     try {
-      const res = await axios.post(settings.BASE_URL + '/auth/signup', {
+      const res = await axiosInstance.post(settings.BASE_URL + '/auth/signup', {
         username,
         email,
         password,
