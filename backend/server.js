@@ -28,7 +28,13 @@ app.use(
     ]
     const origin = req.header('Origin')
     if (allowedOrigins.includes(origin)) {
-      callback(null, { origin: true, credentials: true })
+      callback(null, {
+        origin: true,
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
+        exposedHeaders: ['Set-Cookie'],
+      })
     } else {
       callback(new Error('Not allowed by CORS'))
     }

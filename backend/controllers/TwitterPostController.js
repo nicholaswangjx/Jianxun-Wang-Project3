@@ -64,7 +64,14 @@ const getAllPost = async (req, res) => {
         return TwitterPost.find({ userId: id })
       })
     )
-    res.status(200).json(userPost.concat(...followersPost))
+
+    const allPosts = userPost.concat(...followersPost)
+
+    allPosts.sort((a, b) => {
+      return new Date(b.updatedAt) - new Date(a.updatedAt)
+    })
+
+    res.status(200).json(allPosts)
   } catch (err) {
     errHandler(500, err)
   }
@@ -74,7 +81,7 @@ const getUserAllPost = async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.id)
     const userPost = await TwitterPost.find({ userId: currentUser._id }).sort({
-      createdAt: -1,
+      updatedAt: -1,
     })
 
     res.status(200).json(userPost)
@@ -86,7 +93,7 @@ const getUserAllPost = async (req, res) => {
 const getExplorePost = async (req, res) => {
   try {
     const explorePost = await TwitterPost.find().sort({
-      createdAt: -1,
+      updatedAt: -1,
     })
     res.status(200).json(explorePost)
   } catch (err) {
