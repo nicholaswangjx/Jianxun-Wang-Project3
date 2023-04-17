@@ -17,7 +17,13 @@ const signup = async (req, res, next) => {
     // extract password from the user profile
     const { password, ...otherData } = newUser._doc
     res
-      .cookie('access_token', token, { httpOnly: true })
+      .cookie('access_token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        domain: '.onrender.com',
+        maxAge: 60 * 60 * 24 * 1000,
+      })
       .status(200)
       .json(otherData)
   } catch (err) {
