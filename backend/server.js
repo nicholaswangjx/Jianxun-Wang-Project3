@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser')
 const userRoute = require('./routes/UserRoute')
 const authRoute = require('./routes/AuthRoute')
 const twitterPostRoute = require('./routes/TwitterPostRoute')
-require('dotenv').config()
 const settings = require('./config')
 const cors = require('cors')
 const app = express()
@@ -23,10 +22,11 @@ const connectDB = () => {
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://jianxun-wang-project3.onrender.com',
     credentials: true,
   })
 )
+
 app.use(cookieParser())
 app.use(express.json())
 app.use('/api/users', userRoute)
