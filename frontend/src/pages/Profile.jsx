@@ -109,7 +109,7 @@ const Profile = () => {
                 <p className="mt-2">{description}</p>
               )}
             </div>
-            {currentUser._id === id ? (
+            {currentUser && currentUser._id === id ? (
               <>
                 <button
                   className="px-4 py-2 bg-blue-500 rounded-full text-white"
@@ -129,21 +129,21 @@ const Profile = () => {
                   </button>
                 )}
               </>
-            ) : currentUser.following.includes(id) ? (
+            ) : currentUser && currentUser.following.includes(id) ? (
               <button
                 className="px-4 -y-2 bg-blue-500 rounded-full text-white"
                 onClick={handleFollow}
               >
                 Following
               </button>
-            ) : (
+            ) : currentUser ? (
               <button
                 className="px-4 -y-2 bg-blue-500 rounded-full text-white"
                 onClick={handleFollow}
               >
                 Follow
               </button>
-            )}
+            ) : null}
           </div>
           <div className="mt-6">
             {userTweets &&
