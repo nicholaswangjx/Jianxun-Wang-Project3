@@ -16,16 +16,7 @@ const signup = async (req, res, next) => {
 
     // extract password from the user profile
     const { password, ...otherData } = newUser._doc
-    res
-      .cookie('access_token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        domain: '.onrender.com',
-        maxAge: 60 * 60 * 24 * 1000,
-      })
-      .status(200)
-      .json(otherData)
+    res.status(200).json({ ...otherData, token })
   } catch (err) {
     next(err)
   }
@@ -43,10 +34,7 @@ const signin = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, settings.JWT_SECRET)
     const { password, ...otherData } = user._doc
 
-    res
-      .cookie('access_token', token, { httpOnly: true })
-      .status(200)
-      .json(otherData)
+    res.status(200).json({ ...otherData, token })
   } catch (err) {
     next(err)
   }

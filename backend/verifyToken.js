@@ -1,20 +1,22 @@
 const jwt = require('jsonwebtoken')
 const settings = require('./config')
-const errHandler = require('./error')
 
-const verify = (req, res, next) => {
-  const token = req.cookies.access_token
-  if (!token) {
-    console.log('No token passed in')
-    return next(
-      errHandler(401, 'You are not allowed to perform this operation.')
-    )
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization
+
+  if (!authHeader) {
+    return res.status(403).json({ error: 'No token provided' })
   }
-  jwt.verify(token, settings.JWT_SECRET, (err, user) => {
-    if (err) return next(createError(403, 'Token is invalid'))
-    req.user = user
+
+  const [, token] = authHeader.split(' ')
+
+  try {
+    const decoded = jwt.verify(token, settings.JWT_SECRET)
+    req.userId = decoded.id
     next()
-  })
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
 }
 
-module.exports = verify
+module.exports = verifyToken
