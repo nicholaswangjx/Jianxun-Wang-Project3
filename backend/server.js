@@ -21,9 +21,17 @@ const connectDB = () => {
 }
 
 app.use(
-  cors({
-    origin: 'https://jianxun-wang-project3.onrender.com',
-    credentials: true,
+  cors((req, callback) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://jianxun-wang-project3.onrender.com',
+    ]
+    const origin = req.header('Origin')
+    if (allowedOrigins.includes(origin)) {
+      callback(null, { origin: true, credentials: true })
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
   })
 )
 
