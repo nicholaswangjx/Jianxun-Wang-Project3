@@ -8,6 +8,16 @@ const settings = require('./config')
 const cors = require('cors')
 const app = express()
 
+const path = require('path')
+
+// Serve frontend files
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+// Catch-all route to serve index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'))
+})
+
 // Connect to mongo DB
 const connectDB = () => {
   mongoose
