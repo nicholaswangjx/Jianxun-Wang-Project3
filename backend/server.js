@@ -8,28 +8,6 @@ const settings = require('./config')
 const cors = require('cors')
 const app = express()
 
-const path = require('path')
-
-// Serve frontend files
-app.use(express.static(path.join(__dirname, '../frontend/build')))
-
-// Catch-all route to serve index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'))
-})
-
-// Connect to mongo DB
-const connectDB = () => {
-  mongoose
-    .connect(settings.DATABASE_URL)
-    .then(() => {
-      console.log('connect to DATABASE')
-    })
-    .catch((err) => {
-      throw err
-    })
-}
-
 app.use(
   cors((req, callback) => {
     const allowedOrigins = [
@@ -56,6 +34,18 @@ app.use(express.json())
 app.use('/api/users', userRoute)
 app.use('/api/auth', authRoute)
 app.use('/api/twitterPost', twitterPostRoute)
+
+// Connect to mongo DB
+const connectDB = () => {
+  mongoose
+    .connect(settings.DATABASE_URL)
+    .then(() => {
+      console.log('connect to DATABASE')
+    })
+    .catch((err) => {
+      throw err
+    })
+}
 
 // Start the server
 app.listen(9000, () => {
